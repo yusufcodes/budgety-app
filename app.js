@@ -1,5 +1,39 @@
 // Data module
 var budgetController = (function() {
+    
+    // Function Constructor
+    // Can create many different expenses/income based on this template
+    var Expense = function(id, desc, value)
+    {
+        this.id = id;
+        this.desc = desc;
+        this.value = value;
+    }
+
+    var Income = function(id, desc, value)
+    {
+        this.id = id;
+        this.desc = desc;
+        this.value = value;
+    }
+
+    /* 'Data' object to hold two things
+    1. 'allItems': holds our expenses and incomes in 2 separate arrays 
+    2. 'totals': holds the total amount of expenses and incomes as two values */
+    var data =
+    {
+        allItems:
+        {
+            exp: [],
+            inc: []
+        },
+
+        totals:
+        {
+            exp: 0,
+            inc: 0
+        }
+    }
 
 })();
 
