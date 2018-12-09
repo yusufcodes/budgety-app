@@ -35,13 +35,30 @@ var UIController = (function() {
         }
 
     }
-
 })();
 
 // Main module
 var controller = (function(budgetCtrl, UICtrl) {
 
-    var DOM = UICtrl.getDOMstrings();
+    var setupEventListeners = function()
+    {
+        var DOM = UICtrl.getDOMstrings();
+
+        // Event listener for when the user clicks on the 'add' button
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+
+        // Event listener for when the user clicks *any* key
+        document.addEventListener('keypress', function(event) 
+        {
+            // If user hits enter, add item to app by calling ctrlAddItem function
+            // 'which' property for older browsers which may not have keyCode
+            if (event.keyCode === 13 || event.which === 13) 
+            {
+                ctrlAddItem();
+            }
+        });
+    }
+    
     // Income / Expense should be added to the relevant area
     var ctrlAddItem = function ()
     {
@@ -55,21 +72,17 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 4. Calculate the budget
 
         // 5. Display the budget
-        console.log(input);
-
     }
-    // Event listener for when the user clicks on the 'add' button
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
-    // Event listener for when the user clicks *any* key
-    document.addEventListener('keypress', function(event) 
-    {
-        // If user hits enter, add item to app by calling ctrlAddItem function
-        // 'which' property for older browsers which may not have keyCode
-        if (event.keyCode === 13 || event.which === 13) 
+    return {
+        init: function()
         {
-            ctrlAddItem();
+            console.log('App has started');
+            setupEventListeners();
         }
-    });
+    }
+    
 
 })(budgetController, UIController);
+
+controller.init();
