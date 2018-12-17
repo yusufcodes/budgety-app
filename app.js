@@ -33,13 +33,39 @@ var budgetController = (function() {
             exp: 0,
             inc: 0
         }
-    }
+    };
 
+    // Contains public methods
+    return {
+        // Method to allow the addition of a new 'income' or 'expense' to our data structure
+        addItem: function(type, desc, val) 
+        {
+            var newItem, id;
+
+            // Getting the size of the array to calculate the new ID from
+            var arraySize = data.allItems[type].length - 1;
+
+            // ID = The ID of the last item plus one
+            /* For the first item, the array will be empty therefore we can set the ID to 0
+            First item is when the arraySize is -1 (empty) */
+            arraySize === -1 ? id = 0 : id = data.allItems[type][arraySize].id + 1;
+
+            // Determining income type
+            (type === 'exp') ? newItem = new Expense(id, desc, val) : newItem = new Income(id, desc, val);
+
+            // Add item to respective expense type
+            data.allItems[type].push(newItem);
+
+            // Return new item created
+            return newItem;
+        }
+    }
 })();
 
 // UI module
 var UIController = (function() {
 
+    // Strings stored here for easy reference
     var DOMstrings = 
     {
         inputType: '.add__type',
@@ -67,13 +93,11 @@ var UIController = (function() {
         {
             return DOMstrings;
         }
-
     }
 })();
 
 // Main module
 var controller = (function(budgetCtrl, UICtrl) {
-
     var setupEventListeners = function()
     {
         var DOM = UICtrl.getDOMstrings();
@@ -98,8 +122,9 @@ var controller = (function(budgetCtrl, UICtrl) {
     {
         // 1. Get the input data from fields
         var input = UICtrl.getInput();
-        
+         
         // 2. Add the item to the budget controller
+        var addItem = budgetCtrl.addItem(input.type, input.desc, input.value);
 
         // 3. Add the item to the UI
 
