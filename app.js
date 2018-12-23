@@ -89,6 +89,27 @@ var UIController = (function() {
             }
         },
 
+        // Adding an income / expense to the user interface
+        /* obj: item to add, type: the type of income being added */
+        addListItem: function(obj, type)
+        {
+            var html, newHtml;
+            
+
+            /* My method: use 'obj' attributes to create a new HTML string:
+            var HTMLstring = '<div class="item clearfix" id='+type+'-'+obj.id+'"><div class="item__description">'+obj.desc+'</div><div class="right clearfix"><div class="item__value">+'+obj.value+'</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>' */
+
+            /* Instructor method: Use if/else to determine income type, then replace the placeholders using 'replace' method */
+            // Create HTML string
+            if (type === 'inc')
+            {}
+
+
+            // Place data into HTML string
+
+            // Insert HTML into DOM
+        },
+
         getDOMstrings: function()
         {
             return DOMstrings;
