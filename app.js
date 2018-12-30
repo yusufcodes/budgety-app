@@ -58,6 +58,40 @@ var budgetController = (function() {
 
             // Return new item created
             return newItem;
+        },
+
+        calculateBudget: function()
+        {
+            var totalExpenses = data.totals.exp;
+            var totalIncomes = data.totals.inc;
+
+            var allExpenses = data.allItems.exp;
+            var allIncomes = data.allItems.inc;
+            
+            // Resetting the total values, to be recalculated each time
+            totalExpenses = 0;
+            totalIncomes = 0;
+
+            allExpenses.forEach(function(curr)
+            {
+                totalExpenses += curr.value;
+            });
+            console.log("Total expenses: "+totalExpenses);
+
+            allIncomes.forEach(function(curr)
+            {
+                totalIncomes += curr.value;
+            });
+            console.log("Total income: "+totalIncomes);
+
+            var budget = totalIncomes - totalExpenses;
+
+            
+            console.log("Budget: "+(totalIncomes - totalExpenses));
+
+            return budget;
+
+
         }
     }
 })();
@@ -173,6 +207,7 @@ var controller = (function(budgetCtrl, UICtrl) {
     var updateBudget = function()
     {
         // 1. Calculate the budget
+        budgetCtrl.calculateBudget();
 
         // 2. Return the budget
 
