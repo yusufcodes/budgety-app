@@ -88,7 +88,22 @@ var budgetController = (function() {
             data.budget = data.totals.inc - data.totals.exp;
 
             // Percentage of the budget is calculated
+            if (data.totals.inc > 0)
             data.percentage = Math.round((data.totals.exp/data.totals.inc)*100);
+
+            else
+            data.percentage = -1;
+        },
+
+        // Making budget variables accessible
+        getBudget: function()
+        {
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            }
         }
     }
 })();
@@ -207,9 +222,10 @@ var controller = (function(budgetCtrl, UICtrl) {
         budgetCtrl.calculateBudget();
 
         // 2. Return the budget
+        var budget = budgetCtrl.getBudget();
 
         // 3. Display the budget to the UI
-
+        console.log(budget);
     }
 
     // Income / Expense should be added to the relevant area
