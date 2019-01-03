@@ -17,6 +17,21 @@ var budgetController = (function() {
         this.value = value;
     }
 
+    // Calculates the total of either the expenses or incomes entered into the app
+    var calculateTotal = function(type)
+    {
+        var total = 0;
+
+        // Iterating over specified array and totalling the values
+        data.allItems[type].forEach(function(curr)
+        {
+            total += curr.value;
+        });
+        
+        // Setting 'totals' value for exp or inc to our calculated value
+        data.totals[type] = total;
+    }
+
     /* 'Data' object to hold two things
     1. 'allItems': holds our expenses and incomes in 2 separate arrays 
     2. 'totals': holds the total amount of expenses and incomes as two values */
@@ -32,7 +47,10 @@ var budgetController = (function() {
         {
             exp: 0,
             inc: 0
-        }
+        },
+
+        budget: 0,
+        percentage: -1
     };
 
     // Contains public methods
@@ -62,36 +80,15 @@ var budgetController = (function() {
 
         calculateBudget: function()
         {
-            var totalExpenses = data.totals.exp;
-            var totalIncomes = data.totals.inc;
+            // Totals of income and expenses are calculated
+            calculateTotal('exp');
+            calculateTotal('inc');
 
-            var allExpenses = data.allItems.exp;
-            var allIncomes = data.allItems.inc;
-            
-            // Resetting the total values, to be recalculated each time
-            totalExpenses = 0;
-            totalIncomes = 0;
+            // Totals calculated are subtracted from each other for a total budget
+            data.budget = data.totals.inc - data.totals.exp;
 
-            allExpenses.forEach(function(curr)
-            {
-                totalExpenses += curr.value;
-            });
-            console.log("Total expenses: "+totalExpenses);
-
-            allIncomes.forEach(function(curr)
-            {
-                totalIncomes += curr.value;
-            });
-            console.log("Total income: "+totalIncomes);
-
-            var budget = totalIncomes - totalExpenses;
-
-            
-            console.log("Budget: "+(totalIncomes - totalExpenses));
-
-            return budget;
-
-
+            // Percentage of the budget is calculated
+            data.percentage = Math.round((data.totals.exp/data.totals.inc)*100);
         }
     }
 })();
